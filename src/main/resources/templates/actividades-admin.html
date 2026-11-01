@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar actividades</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+
+    <header>
+        <h1>Administrar actividades</h1>
+        <p>Cartelera Virtual La Ceibita</p>
+    </header>
+
+    <main class="contenedor">
+
+        <section>
+            <h2>Actividades publicadas</h2>
+
+            <a href="/admin/actividades/nueva" class="boton">
+                Publicar nueva actividad
+            </a>
+
+            <br><br>
+
+            <div th:if="${#lists.isEmpty(actividades)}">
+                <p>Todavía no hay actividades publicadas.</p>
+            </div>
+
+            <div th:each="actividad : ${actividades}" class="tarjeta">
+
+                <h3 th:text="${actividad.titulo}"></h3>
+
+                <p th:text="${actividad.descripcion}"></p>
+
+                <p>
+                    <strong>Lugar:</strong>
+                    <span th:text="${actividad.lugar}"></span>
+                </p>
+
+                <p>
+                    <strong>Fecha:</strong>
+                    <span th:text="${#temporals.format(actividad.fechaActividad, 'dd/MM/yyyy HH:mm')}"></span>
+                </p>
+
+                <a th:href="@{/admin/actividades/editar/{id}(id=${actividad.id})}">
+                    <button type="button">Editar</button>
+                </a>
+
+                <form th:action="@{/admin/actividades/eliminar/{id}(id=${actividad.id})}"
+                      method="post"
+                      style="display:inline;"
+                      onsubmit="return confirm('¿Estás seguro de eliminar esta actividad?');">
+
+                    <button type="submit"
+                            style="background-color:#c0392b; color:white;">
+                        Eliminar
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+        <br>
+
+        <a href="/admin/panel">Volver al panel de administración</a>
+
+    </main>
+
+</body>
+</html>

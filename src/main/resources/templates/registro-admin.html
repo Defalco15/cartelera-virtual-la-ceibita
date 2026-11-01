@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro inicial - La Ceibita</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+
+    <header>
+        <h1>Cartelera Virtual La Ceibita</h1>
+        <p>Configuración del administrador inicial</p>
+    </header>
+
+    <main class="login-contenedor">
+
+        <h2>Crear administrador</h2>
+
+        <p>Registra la primera cuenta responsable de administrar la cartelera.</p>
+
+        <p class="error" th:if="${error}" th:text="${error}"></p>
+
+        <form th:action="@{/admin/crear-inicial}" method="post">
+
+            <label>Nombre completo</label>
+            <input type="text" name="nombre" required>
+
+            <label>Nombre de usuario</label>
+            <input type="text" name="usuario" required>
+
+            <label>Contraseña</label>
+            <input type="password" name="contrasena"
+                   minlength="8" required>
+
+            <button type="submit">Crear administrador</button>
+
+        </form>
+
+    </main>
+
+</body>
+</html>

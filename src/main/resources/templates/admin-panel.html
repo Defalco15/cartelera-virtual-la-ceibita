@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Panel administrativo - La Ceibita</title>
+
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+
+    <style>
+        .panel {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .panel-bienvenida {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px #00000012;
+        }
+
+        .panel-bienvenida h2 {
+            color: #176b55;
+            margin-bottom: 10px;
+        }
+
+        .opciones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .opcion {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border-top: 4px solid #176b55;
+            box-shadow: 0 3px 12px #00000012;
+        }
+
+        .opcion h3 {
+            color: #176b55;
+            margin-bottom: 12px;
+        }
+
+        .boton {
+            display: inline-block;
+            background: #176b55;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-top: 15px;
+        }
+
+        .salir {
+            color: white;
+            text-decoration: none;
+            float: right;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a class="salir" th:href="@{/admin/logout}">Cerrar sesión</a>
+
+        <h1>Cartelera Virtual La Ceibita</h1>
+        <p>Panel de administración</p>
+    </header>
+
+    <main class="panel">
+
+        <section class="panel-bienvenida">
+            <h2>¡Bienvenido, <span th:text="${administrador.nombre}">Administrador</span>!</h2>
+
+            <p>Desde aquí podrás gestionar la información de nuestra comunidad.</p>
+        </section>
+
+        <section class="opciones">
+
+            <article class="opcion">
+                <h3>Publicar avisos</h3>
+                <p>Crear comunicados y avisos importantes para los habitantes.</p>
+                <a th:href="@{/admin/avisos}" class="boton">Administrar avisos</a>
+            </article>
+
+           <article class="tarjeta">
+    <h3>Actividades</h3>
+    <p>Publica y administra las actividades de la comunidad.</p>
+    <a th:href="@{/admin/actividades}" class="boton">
+        Administrar actividades
+    </a>
+</article>
+
+           <article class="opcion">
+    <h3>Asambleas</h3>
+    <p>Publicar información sobre reuniones comunitarias.</p>
+    <a th:href="@{/admin/asambleas}" class="boton">
+        Administrar asambleas
+    </a>
+</article>
+
+            <article class="opcion">
+                <h3>Administradores</h3>
+                <p>Gestionar las cuentas de los responsables de la cartelera.</p>
+                <a href="#" class="boton">Próximamente</a>
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Cartelera Virtual La Ceibita</p>
+        <p>Consejo Comunal El Valle - Distrito Capital</p>
+    </footer>
+
+</body>
+</html>

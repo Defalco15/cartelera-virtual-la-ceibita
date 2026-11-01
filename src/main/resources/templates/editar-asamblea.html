@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Editar asamblea - La Ceibita</title>
+
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<body>
+
+<header>
+    <h1>Cartelera Virtual La Ceibita</h1>
+    <p>Modificar asamblea comunitaria</p>
+</header>
+
+<main class="contenedor">
+
+    <section class="bienvenida">
+
+        <h2>Editar asamblea</h2>
+
+        <form th:action="@{/admin/asambleas/actualizar}" method="post">
+
+            <input type="hidden" name="id" th:value="${asamblea.id}">
+
+            <label>Título:</label>
+            <input type="text" name="titulo"
+                   th:value="${asamblea.titulo}" required>
+
+            <br><br>
+
+            <label>Descripción:</label>
+            <textarea name="descripcion" rows="4"
+                      required th:text="${asamblea.descripcion}"></textarea>
+
+            <br><br>
+
+            <label>Lugar:</label>
+            <input type="text" name="lugar"
+                   th:value="${asamblea.lugar}" required>
+
+            <br><br>
+
+            <label>Fecha y hora de inicio:</label>
+            <input type="datetime-local" name="fechaAsamblea"
+                   th:value="${#temporals.format(asamblea.fechaAsamblea, 'yyyy-MM-dd''T''HH:mm')}"
+                   required>
+
+            <br><br>
+
+            <label>Fecha y hora de finalización:</label>
+            <input type="datetime-local" name="fechaFin"
+                   th:value="${#temporals.format(asamblea.fechaFin, 'yyyy-MM-dd''T''HH:mm')}"
+                   required>
+
+            <br><br>
+
+            <button type="submit">Guardar cambios</button>
+
+        </form>
+
+        <br>
+
+        <a href="/admin/asambleas">Volver a las asambleas</a>
+
+    </section>
+
+</main>
+
+</body>
+</html>

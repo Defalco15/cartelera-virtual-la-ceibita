@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar avisos - La Ceibita</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<body>
+
+    <header>
+        <h1>Cartelera Virtual La Ceibita</h1>
+        <p>Administración de avisos comunitarios</p>
+    </header>
+
+    <main class="login-contenedor">
+
+        <h2>Avisos publicados</h2>
+
+        <p>Desde aquí puedes consultar y administrar los comunicados.</p>
+
+        <a th:href="@{/admin/avisos/nuevo}">
+            <button type="button">+ Crear nuevo aviso</button>
+        </a>
+
+        <div th:if="${#lists.isEmpty(avisos)}">
+            <p>Todavía no hay avisos publicados.</p>
+        </div>
+
+        <div th:each="aviso : ${avisos}"
+             style="background: #f4f7f4; padding: 15px; margin-top: 15px; border-radius: 8px;">
+
+            <h3 th:text="${aviso.titulo}"></h3>
+
+            <p th:text="${aviso.descripcion}"></p>
+
+            <small th:text="${#temporals.format(aviso.fechaPublicacion, 'dd/MM/yyyy HH:mm')}"></small>
+
+            <br><br>
+
+            <a th:href="@{/admin/avisos/editar/{id}(id=${aviso.id})}">
+                <button type="button">Editar</button>
+            </a>
+
+            <form th:action="@{/admin/avisos/eliminar/{id}(id=${aviso.id})}"
+                  method="post"
+                  style="display: inline;"
+                  onsubmit="return confirm('¿Estás seguro de eliminar este aviso?');">
+
+                <button type="submit"
+                        style="background: #c0392b; color: white;">
+                    Eliminar
+                </button>
+
+            </form>
+
+        </div>
+
+        <p>
+            <a th:href="@{/admin/panel}">Volver al panel</a>
+        </p>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Asambleas</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+
+<header>
+    <h1>Cartelera Virtual La Ceibita</h1>
+    <p>Administración de asambleas comunitarias</p>
+</header>
+
+<main class="contenedor">
+
+    <section class="bienvenida">
+
+        <h2>Asambleas Comunitarias</h2>
+
+        <p>Desde aquí puedes consultar las asambleas publicadas.</p>
+
+        <br>
+
+        <a href="/admin/asambleas/nueva">
+            <button type="button">Publicar nueva asamblea</button>
+        </a>
+
+        <br><br>
+
+        <div th:if="${#lists.isEmpty(asambleas)}">
+            <p>Todavía no hay asambleas publicadas.</p>
+        </div>
+
+        <div th:each="asamblea : ${asambleas}" class="tarjeta">
+
+            <h3 th:text="${asamblea.titulo}"></h3>
+
+            <p th:text="${asamblea.descripcion}"></p>
+
+            <p>
+                <strong>Lugar:</strong>
+                <span th:text="${asamblea.lugar}"></span>
+            </p>
+
+            <p>
+                <strong>Inicio:</strong>
+                <span th:text="${#temporals.format(asamblea.fechaAsamblea, 'dd/MM/yyyy HH:mm')}"></span>
+            </p>
+
+            <p>
+                <strong>Finalización:</strong>
+                <span th:text="${#temporals.format(asamblea.fechaFin, 'dd/MM/yyyy HH:mm')}"></span>
+            </p>
+
+            <a th:href="@{/admin/asambleas/editar/{id}(id=${asamblea.id})}">
+                <button type="button">Editar</button>
+            </a>
+
+            <form th:action="@{/admin/asambleas/eliminar/{id}(id=${asamblea.id})}"
+                  method="post"
+                  style="display:inline;"
+                  onsubmit="return confirm('¿Estás seguro de eliminar esta asamblea?');">
+
+                <button type="submit"
+                        style="background-color:#c0392b; color:white;">
+                    Eliminar
+                </button>
+
+            </form>
+
+        </div>
+
+        <br>
+
+        <a href="/admin/panel">Volver al panel</a>
+
+    </section>
+
+</main>
+
+</body>
+</html>

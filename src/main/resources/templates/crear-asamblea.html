@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Asamblea</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+
+<header>
+    <h1>Cartelera Virtual La Ceibita</h1>
+    <p>Publicación de asambleas comunitarias</p>
+</header>
+
+<main class="contenedor">
+
+    <section class="bienvenida">
+        <h2>Nueva Asamblea</h2>
+
+        <form action="/admin/asambleas/guardar" method="post">
+
+            <label>Título de la asamblea:</label>
+            <input type="text" name="titulo" required>
+
+            <br><br>
+
+            <label>Descripción:</label>
+            <textarea name="descripcion" rows="4" required></textarea>
+
+            <br><br>
+
+            <label>Lugar:</label>
+            <input type="text" name="lugar" required>
+
+            <br><br>
+
+            <label>Fecha y hora de inicio:</label>
+            <input type="datetime-local" name="fechaAsamblea" required>
+
+            <br><br>
+
+            <label>Fecha y hora de finalización:</label>
+            <input type="datetime-local" name="fechaFin" required>
+
+            <br><br>
+
+            <button type="submit">Publicar Asamblea</button>
+
+        </form>
+
+        <br>
+
+        <a href="/admin/panel">Volver al panel</a>
+
+    </section>
+
+</main>
+
+</body>
+</html>

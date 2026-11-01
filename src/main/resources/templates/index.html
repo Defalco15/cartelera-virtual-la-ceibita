@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cartelera Virtual La Ceibita</title>
+
+    
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.15/index.global.min.css"
+          rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.15/index.global.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.15/locales-all.global.min.js"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7f5;
+            color: #26352c;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* ENCABEZADO */
+
+        .encabezado {
+            background: #174d35;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .encabezado h1 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .encabezado p {
+            margin: 5px 0 0;
+            color: #d5e7db;
+        }
+
+        /* MENU */
+
+        .menu {
+            background: white;
+            padding: 17px 7%;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #e5eae6;
+        }
+
+        .menu a {
+            color: #315642;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .menu a:hover {
+            color: #27864b;
+        }
+
+        /* PORTADA */
+
+        .portada {
+            min-height: 440px;
+            padding: 80px 8%;
+            display: flex;
+            align-items: center;
+            background:
+                linear-gradient(90deg, rgba(12, 39, 25, 0.88), rgba(12, 39, 25, 0.25)),
+                url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1800&q=85')
+                center/cover no-repeat;
+            color: white;
+        }
+
+        .portada-contenido {
+            max-width: 650px;
+        }
+
+        .portada h2 {
+            font-size: 43px;
+            line-height: 1.2;
+            margin-bottom: 18px;
+        }
+
+        .portada p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #edf4ef;
+        }
+
+        .boton-portada {
+            display: inline-block;
+            background: #3d9b60;
+            color: white;
+            padding: 14px 25px;
+            margin-top: 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .boton-portada:hover {
+            background: #2e804d;
+        }
+
+        /* CONTENEDOR */
+
+        .contenido {
+            max-width: 1200px;
+            width: 90%;
+            margin: 55px auto;
+        }
+
+        .titulo-seccion {
+            margin-bottom: 10px;
+            font-size: 27px;
+            color: #174d35;
+        }
+
+        .descripcion-seccion {
+            color: #6c796f;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        /* TARJETAS INFORMATIVAS */
+
+        .tarjetas-informativas {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin: 45px 0 60px;
+        }
+
+        .tarjeta-info {
+            background: white;
+            border-radius: 9px;
+            overflow: hidden;
+            box-shadow: 0 3px 14px rgba(0,0,0,0.06);
+        }
+
+        .tarjeta-info img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .tarjeta-info-contenido {
+            padding: 20px;
+        }
+
+        .tarjeta-info h3 {
+            color: #174d35;
+            margin-top: 0;
+        }
+
+        .tarjeta-info p {
+            color: #68766d;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* CALENDARIO */
+
+        .calendario-contenedor {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+            margin-bottom: 60px;
+        }
+
+        #calendario-comunitario {
+            width: 100%;
+            min-height: 650px;
+            margin-top: 25px;
+        }
+
+        .fc .fc-button-primary {
+            background: #246743;
+            border-color: #246743;
+        }
+
+        .fc .fc-button-primary:hover {
+            background: #174d35;
+            border-color: #174d35;
+        }
+
+        .fc .fc-toolbar-title {
+            color: #174d35;
+            font-size: 21px;
+        }
+
+        /* AVISOS */
+
+        .avisos-contenedor {
+            margin-bottom: 65px;
+        }
+
+        .aviso-tarjeta {
+            background: white;
+            padding: 23px;
+            border-left: 5px solid #398b58;
+            border-radius: 6px;
+            margin-bottom: 17px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+        }
+
+        .aviso-tarjeta h3 {
+            color: #174d35;
+            margin-top: 0;
+        }
+
+        .aviso-tarjeta p {
+            line-height: 1.7;
+            color: #56645b;
+        }
+
+        .aviso-tarjeta small {
+            color: #89948d;
+        }
+
+        /* PIE DE PAGINA */
+
+        .pie-pagina {
+            background: #153f2d;
+            color: white;
+            text-align: center;
+            padding: 35px 15px;
+        }
+
+        .pie-pagina p {
+            margin: 7px;
+            color: #d1e1d6;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+
+            .tarjetas-informativas {
+                grid-template-columns: 1fr;
+            }
+
+            .portada {
+                min-height: 370px;
+                padding: 55px 7%;
+            }
+
+            .portada h2 {
+                font-size: 32px;
+            }
+
+            .calendario-contenedor {
+                padding: 15px;
+            }
+
+            .encabezado {
+                padding: 20px;
+            }
+
+            .menu {
+                padding: 16px 20px;
+                gap: 18px;
+            }
+
+            .fc .fc-toolbar {
+                display: block;
+            }
+
+            .fc .fc-toolbar-chunk {
+                margin-bottom: 10px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+
+    <header class="encabezado">
+
+        <div>
+            <h1>Cartelera Virtual La Ceibita</h1>
+            <p>Consejo Comunal El Valle - Distrito Capital</p>
+        </div>
+
+    </header>
+
+
+    <!-- MENU -->
+
+    <nav class="menu">
+
+        <a href="/">Inicio</a>
+        <a href="#informacion">Nuestra comunidad</a>
+        <a href="#calendario">Calendario</a>
+        <a href="#avisos">Avisos</a>
+
+    </nav>
+
+
+    <!-- PORTADA -->
+
+    <section class="portada">
+
+        <div class="portada-contenido">
+
+            <h2>Una comunidad informada es una comunidad organizada</h2>
+
+            <p>
+                Un espacio digital creado para mantener informados
+                a los habitantes de La Ceibita sobre las actividades,
+                reuniones y acontecimientos de nuestra comunidad.
+            </p>
+
+            <a href="#calendario" class="boton-portada">
+                Consultar calendario
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <main class="contenido">
+
+
+        <!-- INFORMACION DE LA COMUNIDAD -->
+
+        <section id="informacion">
+
+            <h2 class="titulo-seccion">Nuestra comunidad</h2>
+
+            <p class="descripcion-seccion">
+                Este portal permite compartir información de interés
+                comunitario y facilitar la comunicación entre los
+                habitantes del sector La Ceibita.
+            </p>
+
+
+            <div class="tarjetas-informativas">
+
+                <article class="tarjeta-info">
+
+                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=85"
+                         alt="Personas compartiendo en comunidad">
+
+                    <div class="tarjeta-info-contenido">
+
+                        <h3>Participación comunitaria</h3>
+
+                        <p>
+                            Promovemos la participación de los habitantes
+                            en las actividades y decisiones de nuestra comunidad.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="tarjeta-info">
+
+                    <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=900&q=85"
+                         alt="Personas reunidas en una actividad">
+
+                    <div class="tarjeta-info-contenido">
+
+                        <h3>Reuniones y asambleas</h3>
+
+                        <p>
+                            Consulta las convocatorias y fechas de las
+                            reuniones organizadas para los habitantes.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="tarjeta-info">
+
+                    <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=900&q=85"
+                         alt="Espacio verde y recreativo">
+
+                    <div class="tarjeta-info-contenido">
+
+                        <h3>Actividades comunitarias</h3>
+
+                        <p>
+                            Mantente informado sobre las jornadas,
+                            encuentros y actividades del sector.
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- CALENDARIO -->
+
+        <section id="calendario" class="calendario-contenedor">
+
+            <h2 class="titulo-seccion">Calendario comunitario</h2>
+
+            <p class="descripcion-seccion">
+                Consulta las actividades y asambleas programadas
+                en el sector La Ceibita.
+            </p>
+
+            <div id="calendario-comunitario"></div>
+
+            <p>
+                <strong style="color:#27864b;">■ Actividades</strong>
+                &nbsp;&nbsp;
+                <strong style="color:#2878c8;">■ Asambleas</strong>
+            </p>
+
+        </section>
+
+
+        <!-- AVISOS -->
+
+        <section id="avisos" class="avisos-contenedor">
+
+            <h2 class="titulo-seccion">Avisos comunitarios</h2>
+
+            <p class="descripcion-seccion">
+                Información y comunicados importantes para los
+                habitantes de La Ceibita.
+            </p>
+
+            <div th:if="${#lists.isEmpty(avisos)}">
+
+                <p>No hay avisos publicados actualmente.</p>
+
+            </div>
+
+
+            <div th:each="aviso : ${avisos}" class="aviso-tarjeta">
+
+                <h3 th:text="${aviso.titulo}"></h3>
+
+                <p th:text="${aviso.descripcion}"></p>
+
+                <small th:text="${#temporals.format(aviso.fechaPublicacion, 'dd/MM/yyyy HH:mm')}"></small>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- PIE DE PAGINA -->
+
+    <footer class="pie-pagina">
+
+        <h3>Cartelera Virtual La Ceibita</h3>
+
+        <p>Consejo Comunal El Valle - Distrito Capital</p>
+
+        <p>Un espacio para informar, participar y construir comunidad.</p>
+
+    </footer>
+
+
+    <!-- CALENDARIO -->
+
+    <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        var elemento = document.getElementById('calendario-comunitario');
+
+        var calendario = new FullCalendar.Calendar(elemento, {
+
+            locale: 'es',
+
+            initialView: 'timeGridWeek',
+
+            firstDay: 1,
+
+            height: 'auto',
+
+            slotMinTime: '07:00:00',
+
+            slotMaxTime: '22:00:00',
+
+            allDaySlot: false,
+
+            nowIndicator: true,
+
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'timeGridDay,timeGridWeek,dayGridMonth'
+            },
+
+            buttonText: {
+                today: 'Hoy',
+                day: 'Día',
+                week: 'Semana',
+                month: 'Mes'
+            },
+
+            events: function(info, successCallback, failureCallback) {
+
+                Promise.all([
+
+                    fetch('/api/actividades').then(response => response.json()),
+
+                    fetch('/api/asambleas').then(response => response.json())
+
+                ])
+
+                .then(([actividades, asambleas]) => {
+
+                    var eventosActividades = actividades.map(actividad => ({
+
+                        title: actividad.titulo,
+
+                        start: actividad.fechaActividad,
+
+                        end: actividad.fechaFin,
+
+                        backgroundColor: '#27864b',
+
+                        borderColor: '#27864b'
+
+                    }));
+
+
+                    var eventosAsambleas = asambleas.map(asamblea => ({
+
+                        title: 'Asamblea: ' + asamblea.titulo,
+
+                        start: asamblea.fechaAsamblea,
+
+                        end: asamblea.fechaFin,
+
+                        backgroundColor: '#2878c8',
+
+                        borderColor: '#2878c8'
+
+                    }));
+
+
+                    successCallback([
+
+                        ...eventosActividades,
+
+                        ...eventosAsambleas
+
+                    ]);
+
+                })
+
+                .catch(error => {
+
+                    console.error('Error al cargar eventos:', error);
+
+                    failureCallback(error);
+
+                });
+
+            }
+
+        });
+
+
+        calendario.render();
+
+    });
+
+    </script>
+
+</body>
+</html>

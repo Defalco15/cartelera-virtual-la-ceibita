@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear aviso - La Ceibita</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<body>
+
+    <header>
+        <h1>Cartelera Virtual La Ceibita</h1>
+        <p>Publicación de avisos comunitarios</p>
+    </header>
+
+    <main class="login-contenedor">
+
+        <h2>Crear nuevo aviso</h2>
+
+        <p>Completa los siguientes datos para publicar un comunicado.</p>
+
+        <form th:action="@{/admin/avisos/guardar}" method="post">
+
+            <label>Título del aviso</label>
+            <input type="text" name="titulo"
+                   placeholder="Escribe el título del aviso"
+                   maxlength="150" required>
+
+            <label>Descripción</label>
+            <textarea name="descripcion"
+                      placeholder="Escribe aquí el contenido del aviso"
+                      rows="7" required></textarea>
+
+            <button type="submit">Publicar aviso</button>
+
+        </form>
+
+        <p>
+            <a th:href="@{/admin/avisos}">Volver a los avisos</a>
+        </p>
+
+        <p>
+            <a th:href="@{/admin/panel}">Volver al panel</a>
+        </p>
+
+    </main>
+
+</body>
+</html>
