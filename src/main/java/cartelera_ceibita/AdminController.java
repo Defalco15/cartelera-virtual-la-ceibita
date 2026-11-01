@@ -2,6 +2,7 @@
 package cartelera_ceibita;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,9 @@ public class AdminController {
 
     private final AdministradorService administradorService;
     private final AdministradorRepository administradorRepository;
+
+    @Value("${ADMIN_SETUP_KEY:}")
+    private String claveConfiguracion;
 
     public AdminController(AdministradorService administradorService,
                            AdministradorRepository administradorRepository) {
@@ -41,10 +45,17 @@ public class AdminController {
             @RequestParam String nombre,
             @RequestParam String usuario,
             @RequestParam String contrasena,
+            @RequestParam String claveInicial,
             Model model) {
 
         if (administradorRepository.count() > 0) {
             return "redirect:/admin/login";
+        }
+
+        if (claveConfiguracion == null || claveConfiguracion.isBlank()
+                || !claveConfiguracion.equals(claveInicial)) {
+            model.addAttribute("error", "Clave de configuración incorrecta.");
+            return "registro-admin";
         }
 
         if (contrasena.length() < 8) {
@@ -79,7 +90,6 @@ public class AdminController {
                 contrasena, administrador.getContrasena())) {
 
             session.setAttribute("administradorId", administrador.getId());
-           
 
             return "redirect:/admin/panel";
         }
